@@ -1,0 +1,43 @@
+---
+title: "NYC Cencus distributions"
+author: "Amogh Patil"
+format: html
+---
+```{r}
+#|echo: false
+#|message: false
+library(tidyverse)
+library(primer.data)
+library(scales)
+library(ggplot2)
+library(ggbeeswarm)
+library(viridis)
+```
+
+```{r}
+#|echo: false
+nyc_tracts<-read_csv(file="./data/nyc_tracts.csv")|>drop_na()
+# Create the beeswarm plot with viridis color scale
+nyc_tracts|>ggplot(mapping=aes(x = med_income, y = race, color = med_income)) +
+  geom_quasirandom(alpha = 0.7, size = 2) +
+  scale_x_continuous(labels = scales::dollar_format()) +
+  scale_color_viridis(option = "D", direction = 1, name = "Median Household Income") +
+  theme_minimal() +
+  labs(
+    title = "Household income distribution by largest racial/ethnic group",
+    subtitle = "Census tracts, New York City",
+    x = "Median household income",
+    y = "Largest group in Census tract",
+    caption = "Data source: 2016-2020 ACS"
+  ) +
+  theme(
+    plot.title = element_text(size = 20, face = "bold"),
+    plot.subtitle = element_text(size = 14),
+    plot.caption = element_text(size = 10),
+    legend.position = "none"
+  )
+
+```
+
+
+
